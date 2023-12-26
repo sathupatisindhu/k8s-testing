@@ -41,15 +41,15 @@ jobs:
         if [ "${{ github.event.inputs.checkbox1 }}" == "true" ]; then
           echo "creating nodes"
           # Your command for Checkbox 1 goes here
-        ls -lrt
-        cd terraform
-        cd dev
-        ls
-        terraform --version
-        terraform init
-        terraform validate
-        terraform plan 
-        terraform apply --auto-approve 
+          ls -lrt
+          cd terraform
+          cd dev
+          ls
+          terraform --version
+          terraform init
+          terraform validate
+          terraform plan 
+          terraform apply --auto-approve 
         fi
 
         if [ "${{ github.event.inputs.checkbox2 }}" == "true" ]; then
