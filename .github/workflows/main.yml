@@ -7,6 +7,7 @@ on:
         description: 'Select environment'
         required: true
         default: 'dev'
+        type: choice
         options: ['dev', 'qa', 'prod']
       checkbox_1:
         description: 'Terraform Nodes'
