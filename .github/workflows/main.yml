@@ -1,69 +1,67 @@
 name: Checkbox Workflow
-
-on:
+'on':
   workflow_dispatch:
     inputs:
       environments:
-        description: 'Select environment'
+        description: Select environment
         required: true
-        default: 'dev'
+        default: dev
         type: choice
-        options: ['dev', 'qa', 'prod']
+        options:
+          - dev
+          - qa
+          - prod
       checkbox_1:
-        description: 'Terraform Nodes'
+        description: Terraform Nodes
         required: true
         default: 'false'
       checkbox_2:
-        description: 'Kops Installation'
+        description: Kops Installation
         required: false
         default: 'false'
       checkbox_3:
-        description: 'EFK Installation'
+        description: EFK Installation
         required: false
         default: 'false'
       checkbox_4:
-        description: 'Monitoring Installation'
+        description: Monitoring Installation
         required: false
         default: 'false'
-
 jobs:
   run_workflow:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out the repository
-      uses: actions/checkout@v2
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 0.14.9
-    - name: Run workflow based on checkboxes and run commands 
-      run: |
-        if [ "${{ github.event.inputs.checkbox1 }}" == "true" ]; then
-          echo "creating nodes"
-          # Your command for Checkbox 1 goes here
-          ls -lrt
-          cd terraform
-          cd dev
-          ls
-          terraform --version
-          terraform init
-          terraform validate
-          terraform plan 
-          terraform apply --auto-approve 
-        fi
+      - name: Check out the repository
+        uses: actions/checkout@v2
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.9
+      - name: Run workflow based on checkboxes and run commands
+        run: |
+          if [ "${{ github.event.inputs.checkbox1 }}" == "true" ]; then
+            echo "creating nodes"
+            # Your command for Checkbox 1 goes here
+            ls -lrt
+            cd terraform
+            cd dev
+            ls
+            terraform --version
+            terraform init
+            terraform validate
+            terraform plan 
+            terraform apply --auto-approve 
+          fi
+          if [ "${{ github.event.inputs.checkbox2 }}" == "true" ]; then
+            echo "installation for Kops"
+            # Your command for Checkbox 2 goes here
 
-        if [ "${{ github.event.inputs.checkbox2 }}" == "true" ]; then
-          echo "installation for Kops"
-          # Your command for Checkbox 2 goes here
-      
-        fi
-
-        if [ "${{ github.event.inputs.checkbox3 }}" == "true" ]; then
-          echo "installation for EFK"
-          # Your command for Checkbox 3 goes here
-        fi
-
-        if [ "${{ github.event.inputs.checkbox4 }}" == "true" ]; then
-          echo "installation for monitoring"
-          # Your command for Checkbox 4 goes here
-        fi 
+          fi
+          if [ "${{ github.event.inputs.checkbox3 }}" == "true" ]; then
+            echo "installation for EFK"
+            # Your command for Checkbox 3 goes here
+          fi
+          if [ "${{ github.event.inputs.checkbox4 }}" == "true" ]; then
+            echo "installation for monitoring"
+            # Your command for Checkbox 4 goes here
+          fi 
