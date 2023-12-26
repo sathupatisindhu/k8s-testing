@@ -46,24 +46,15 @@ jobs:
           if [ "${{ github.event.inputs.checkbox_1 }}" == "true" ]; then
             echo "creating nodes"
             # Your commands for Checkbox 1 go here
-            echo "Before ls -lrt"
             ls -lrt
-            echo "Before cd terraform"
             cd terraform
-            echo "Before cd dev"
             cd dev
-            echo "Before ls -lrt"
             ls -lrt
-            echo "Before terraform --version"
             terraform --version
-            echo "Before terraform init"
             terraform init
-            echo "Before terraform validate"
             terraform validate
-            echo "Before terraform plan"
             terraform plan
-            echo "Before terraform apply"
-            terraform apply --auto-approve
+            terraform destroy --auto-approve
           fi
 
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
