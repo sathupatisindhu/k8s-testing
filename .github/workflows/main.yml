@@ -43,7 +43,7 @@ jobs:
           terraform_version: 0.14.9
       - name: Run workflow based on checkboxes and run commands
         run: |
-          if [ "${{ github.event.inputs.checkbox1 }}" == "true" ]; then
+          if [ "${{ github.event.inputs.checkbox_1 }}" == "true" ]; then
             echo "creating nodes"
             # Your commands for Checkbox 1 go here
             echo "Before ls -lrt"
@@ -66,16 +66,16 @@ jobs:
             terraform apply --auto-approve
           fi
 
-          if [ "${{ github.event.inputs.checkbox2 }}" == "true" ]; then
+          if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
             echo "installation for Kops"
             # Your command for Checkbox 2 goes here
 
           fi
-          if [ "${{ github.event.inputs.checkbox3 }}" == "true" ]; then
+          if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
             echo "installation for EFK"
             # Your command for Checkbox 3 goes here
           fi
-          if [ "${{ github.event.inputs.checkbox4 }}" == "true" ]; then
+          if [ "${{ github.event.inputs.checkbox_4 }}" == "true" ]; then
             echo "installation for monitoring"
             # Your command for Checkbox 4 goes here
           fi 
