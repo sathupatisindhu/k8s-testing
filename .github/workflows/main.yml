@@ -54,13 +54,27 @@ jobs:
             terraform init
             terraform validate
             terraform plan
-            terraform destroy --auto-approve
+            terraform apply --auto-approve
           fi
-
+      - name: Install kops and AWS CLI
+        run: |
+          wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
+          sudo mv kops-linux-amd64 /usr/local/bin/kops
+          sudo chmod +x /usr/local/bin/kops 
+          which kops 
+          kops version
+          sudo apt-get update && sudo apt-get install -y awscli
+      - name: Create S3 bucket
+        run: |
+          aws s3api create-bucket --bucket kops-bucket-new-testing --region us-east-1
+          aws s3 ls 
+          aws s3 ls kops-bucket-new-testing
+          aws s3api put-bucket-versioning --bucket kops-bucket-new-testing --region us-east-1 --versioning Status=Enabled
+          export KOPS_STATE_STORE=s3://kops-bucket-new-testing
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
             echo "installation for Kops"
             # Your command for Checkbox 2 goes here
-
+         
           fi
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
             echo "installation for EFK"
