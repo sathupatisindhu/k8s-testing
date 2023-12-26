@@ -42,7 +42,7 @@ jobs:
         with:
           terraform_version: 0.14.9
       - name: Run workflow based on checkboxes and run commands
-       run: |
+        run: |
           if [ "${{ github.event.inputs.checkbox1 }}" == "true" ]; then
             echo "creating nodes"
             # Your commands for Checkbox 1 go here
@@ -52,8 +52,8 @@ jobs:
             cd terraform
             echo "Before cd dev"
             cd dev
-            echo "Before ls"
-            ls
+            echo "Before ls -lrt"
+            ls -lrt
             echo "Before terraform --version"
             terraform --version
             echo "Before terraform init"
