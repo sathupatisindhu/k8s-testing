@@ -1,0 +1,56 @@
+name: Checkbox Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      environments:
+        description: 'Select environment'
+        required: true
+        default: 'dev'
+        options: ['dev', 'qa', 'prod']
+      checkbox_1:
+        description: 'Terraform Nodes'
+        required: false
+        default: 'false'
+      checkbox_2:
+        description: 'Kops Installation'
+        required: false
+        default: 'false'
+      checkbox_3:
+        description: 'EFK Installation'
+        required: false
+        default: 'false'
+      checkbox_4:
+        description: 'Monitoring Installation'
+        required: false
+        default: 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Run workflow based on checkboxes
+      run: |
+        if [ "${{ github.event.inputs.checkbox1 }}" == "true" ]; then
+          echo "creating nodes"
+          # Your command for Checkbox 1 goes here
+        fi
+
+        if [ "${{ github.event.inputs.checkbox2 }}" == "true" ]; then
+          echo "installation for Kops"
+          # Your command for Checkbox 2 goes here
+        fi
+
+        if [ "${{ github.event.inputs.checkbox3 }}" == "true" ]; then
+          echo "installation for EFK"
+          # Your command for Checkbox 3 goes here
+        fi
+
+        if [ "${{ github.event.inputs.checkbox4 }}" == "true" ]; then
+          echo "installation for monitoring"
+          # Your command for Checkbox 4 goes here
+        fi 
