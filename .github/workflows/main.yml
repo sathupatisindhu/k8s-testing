@@ -43,6 +43,7 @@ jobs:
           # Your command for Checkbox 1 goes here
         ls -lrt
         cd terraform
+        cd dev
         ls
         terraform --version
         terraform init
