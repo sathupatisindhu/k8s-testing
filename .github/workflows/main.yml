@@ -1,3 +1,4 @@
+
 name: Checkbox Workflow
 'on':
   workflow_dispatch:
@@ -41,20 +42,30 @@ jobs:
         with:
           terraform_version: 0.14.9
       - name: Run workflow based on checkboxes and run commands
-        run: |
+       run: |
           if [ "${{ github.event.inputs.checkbox1 }}" == "true" ]; then
             echo "creating nodes"
-            # Your command for Checkbox 1 goes here
+            # Your commands for Checkbox 1 go here
+            echo "Before ls -lrt"
             ls -lrt
+            echo "Before cd terraform"
             cd terraform
+            echo "Before cd dev"
             cd dev
+            echo "Before ls"
             ls
+            echo "Before terraform --version"
             terraform --version
+            echo "Before terraform init"
             terraform init
+            echo "Before terraform validate"
             terraform validate
-            terraform plan 
-            terraform apply --auto-approve 
+            echo "Before terraform plan"
+            terraform plan
+            echo "Before terraform apply"
+            terraform apply --auto-approve
           fi
+
           if [ "${{ github.event.inputs.checkbox2 }}" == "true" ]; then
             echo "installation for Kops"
             # Your command for Checkbox 2 goes here
