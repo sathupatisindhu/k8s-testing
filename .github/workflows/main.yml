@@ -56,6 +56,9 @@ jobs:
             terraform plan
             terraform apply --auto-approve
           fi
+          if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
+           echo "installation for Kops"
+           # Your command for Checkbox 2 goes here
       - name: Install kops and AWS CLI
         run: |
           wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
@@ -64,6 +67,11 @@ jobs:
           which kops 
           kops version
           sudo apt-get update && sudo apt-get install -y awscli
+      - name: Set AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1
       - name: Create S3 bucket
         run: |
           aws s3api create-bucket --bucket kops-bucket-new-testing --region us-east-1
@@ -71,51 +79,6 @@ jobs:
           aws s3 ls kops-bucket-new-testing
           aws s3api put-bucket-versioning --bucket kops-bucket-new-testing --region us-east-1 --versioning Status=Enabled
           export KOPS_STATE_STORE=s3://kops-bucket-new-testing
-
-          name: Kops Workflow
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  kops_cluster_job:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Install kops and AWS CLI
-      run: |
-        wget -O kops https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
-        chmod +x kops
-        sudo mv kops /usr/local/bin/
-
-        sudo apt-get update && sudo apt-get install -y awscli
-
-    - name: Set AWS credentials
-      run: |
-        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws configure set default.region us-east-1
-
-    - name: Create S3 bucket
-      run: |
-        aws s3api create-bucket --bucket kops-bucket-new-testing --region us-east-1
-        aws s3api put-bucket-versioning --bucket kops-bucket-new-testing --region us-east-1 --versioning Status=Enabled
-        export KOPS_STATE_STORE=s3://kops-bucket-new-testing
-        kops create cluster --name sindhu-cluster.sarathkumar.xyz --zones ca-central-1a --master-size t2.medium --node-size t2.micro --kubernetes-version 1.27.8
-        kops update cluster --name sindhu-cluster.sarathkumar.xyz --yes
-        kops validate cluster --name sindhu-cluster.sarathkumar.xyz
-        kops export kubecfg --admin
-        kops validate cluster --name sindhu-cluster.sarathkumar.xyz
-        aws s3 ls kops-bucket-new-testing
-
-          if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
-            echo "installation for Kops"
-            # Your command for Checkbox 2 goes here
          
           fi
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
