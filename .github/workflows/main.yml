@@ -56,9 +56,17 @@ jobs:
             terraform plan
             terraform apply --auto-approve
           fi
+          
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
            echo "installation for Kops"
            # Your command for Checkbox 2 goes here
+
+      - name: Set AWS credentials
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1
+          
       - name: Install kops and AWS CLI
         run: |
           wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
@@ -66,19 +74,13 @@ jobs:
           sudo chmod +x /usr/local/bin/kops 
           which kops 
           kops version
-          sudo apt-get update && sudo apt-get install -y awscli
-      - name: Set AWS credentials
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region us-east-1
-      - name: Create S3 bucket
-        run: |
-          aws s3api create-bucket --bucket kops-bucket-new-testing --region us-east-1
-          aws s3 ls 
-          aws s3 ls kops-bucket-new-testing
-          aws s3api put-bucket-versioning --bucket kops-bucket-new-testing --region us-east-1 --versioning Status=Enabled
-          export KOPS_STATE_STORE=s3://kops-bucket-new-testing
+          aws s3api create-bucket --bucket k8s-bucket --region us-east-1
+          aws s3 ls
+          aws s3api put-bucket-versioning --bucket k8s-bucket --region us-east-1 --versioning Status=Enabled
+          export KOPS_STATE_STORE=s3://k8s-bucket
+          
+
+
          
           fi
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
