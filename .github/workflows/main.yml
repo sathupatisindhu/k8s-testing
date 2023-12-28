@@ -56,7 +56,8 @@ jobs:
             terraform plan
             terraform apply --auto-approve
           fi
-          
+      - name: run workflow for kops installation
+        run: |
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
            echo "installation for Kops"
            # Your command for Checkbox 2 goes here
@@ -74,10 +75,11 @@ jobs:
           sudo chmod +x /usr/local/bin/kops 
           which kops 
           kops version
-          aws s3api create-bucket --bucket k8s-bucket --region us-east-1
+          aws --version
+          aws s3api create-bucket --bucket k8s-bucket-sindhu --region us-east-1
           aws s3 ls
-          aws s3api put-bucket-versioning --bucket k8s-bucket --region us-east-1 --versioning Status=Enabled
-          export KOPS_STATE_STORE=s3://k8s-bucket
+          aws s3api put-bucket-versioning --bucket k8s-bucket-sindhu --region us-east-1 --versioning Status=Enabled
+          export KOPS_STATE_STORE=s3://k8s-bucket-sindhu
           
 
 
