@@ -56,8 +56,7 @@ jobs:
             terraform plan
             terraform apply --auto-approve
           fi
-      - name: run workflow for kops installation
-        run: |
+
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
            echo "installation for Kops"
            # Your command for Checkbox 2 goes here
