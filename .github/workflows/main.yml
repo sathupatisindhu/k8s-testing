@@ -18,7 +18,7 @@ name: Checkbox Workflow
         default: 'false'
       checkbox_2:
         description: Kops Installation
-        required: false
+        required: true
         default: 'false'
       checkbox_3:
         description: EFK Installation
