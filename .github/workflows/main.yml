@@ -83,6 +83,7 @@ jobs:
             aws s3 ls
             aws s3api put-bucket-versioning --bucket k8s-bucket-sindhu --region us-east-1 --versioning Status=Enabled
             export KOPS_STATE_STORE=s3://k8s-bucket-sindhu
+            export KOPS_CLUSTER_NAME=sarathkumar.xyz.com
             kops create cluster --name sindhu-cluster.sarathkumar.xyz --zones us-east-1a --master-size t2.medium --node-size t2.micro --kubernetes-version 1.27.8
             kops get cluster
             kops update cluster --name sindhu-cluster.sarathkumar.xyz --yes
