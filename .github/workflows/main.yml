@@ -77,6 +77,8 @@ jobs:
             which kops 
             kops version
             aws --version
+            aws configure set default.region us-east-1
+            aws ec2 describe-instance-types --instance-types t2.medium  # Fetch information about the instance type to set the correct endpoint
             aws s3api create-bucket --bucket k8s-bucket-sindhu --region us-east-1
             aws s3 ls
             aws s3api put-bucket-versioning --bucket k8s-bucket-sindhu --region us-east-1 --versioning Status=Enabled
