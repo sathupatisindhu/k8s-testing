@@ -1,6 +1,6 @@
-
 name: Checkbox Workflow
-'on':
+
+on:
   workflow_dispatch:
     inputs:
       environments:
@@ -28,12 +28,13 @@ name: Checkbox Workflow
         description: Monitoring Installation
         required: false
         default: 'false'
+
 jobs:
   run_workflow:
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
-      AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2
@@ -56,33 +57,30 @@ jobs:
             terraform plan
             terraform apply --auto-approve
           fi
-
+      - name: Run workflow for kops installation
+        run: |
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
-           echo "installation for Kops"
-           # Your command for Checkbox 2 goes here
-
+            echo "installation for Kops"
+            # Your command for Checkbox 2 goes here
+          fi
       - name: Set AWS credentials
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set default.region us-east-1
-          
       - name: Install kops and AWS CLI
         run: |
-          wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
-          sudo mv kops-linux-amd64 /usr/local/bin/kops
-          sudo chmod +x /usr/local/bin/kops 
-          which kops 
-          kops version
-          aws --version
-          aws s3api create-bucket --bucket k8s-bucket-sindhu --region us-east-1
-          aws s3 ls
-          aws s3api put-bucket-versioning --bucket k8s-bucket-sindhu --region us-east-1 --versioning Status=Enabled
-          export KOPS_STATE_STORE=s3://k8s-bucket-sindhu
-          
-
-
-         
+          if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
+            wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
+            sudo mv kops-linux-amd64 /usr/local/bin/kops
+            sudo chmod +x /usr/local/bin/kops 
+            which kops 
+            kops version
+            aws --version
+            aws s3api create-bucket --bucket k8s-bucket-sindhu --region us-east-1
+            aws s3 ls
+            aws s3api put-bucket-versioning --bucket k8s-bucket-sindhu --region us-east-1 --versioning Status=Enabled
+            export KOPS_STATE_STORE=s3://k8s-bucket-sindhu
           fi
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
             echo "installation for EFK"
@@ -91,4 +89,4 @@ jobs:
           if [ "${{ github.event.inputs.checkbox_4 }}" == "true" ]; then
             echo "installation for monitoring"
             # Your command for Checkbox 4 goes here
-          fi 
+          fi
