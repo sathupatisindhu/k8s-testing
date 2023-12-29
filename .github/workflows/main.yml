@@ -95,9 +95,11 @@ jobs:
             kops export kubecfg --admin
             kops validate cluster --name sindhu-cluster.sarathkumar.xyz
             kops get cluster
+            kubectl -n kube-system get all 
             kops export kubecfg --admin
             kops validate cluster --name sindhu-cluster.sarathkumar.xyz
             kops get cluster
+            kubectl -n kube-system get all 
 
           fi
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
