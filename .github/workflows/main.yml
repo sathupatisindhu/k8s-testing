@@ -74,10 +74,14 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set default.region us-east-1
-
+      - name: Generate SSH key
+        run: |
+          echo "$SSH_PRIVATE_KEY" > id_rsa
+          chmod 600 id_rsa
       - name: Install kops and AWS CLI
         run: |
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
+           ssh -i id_rsa user@35.94.124.102
             wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
             sudo mv kops-linux-amd64 /usr/local/bin/kops
             sudo chmod +x /usr/local/bin/kops 
@@ -85,7 +89,6 @@ jobs:
             kops version
             aws --version
             aws configure set default.region us-east-1
-                        
             export KOPS_STATE_STORE=s3://k8s-bucket-sindhu
             export KOPS_CLUSTER_NAME=sindhu-cluster.sarathkumar.xyz
             #kops create cluster --name=${KOPS_CLUSTER_NAME} --zones=us-east-1a --master-size=t2.large --node-size=t2.medium --kubernetes-version=1.27.8 --dns private
@@ -94,27 +97,8 @@ jobs:
             kops validate cluster --name ${KOPS_CLUSTER_NAME} --wait 10m
             kops get cluster
             kops export kubecfg --admin
-          fi
-
-      - name: Display S3 bucket contents
-        run: |
-          aws s3 ls $KOPS_STATE_STORE
-
-      - name: Generate SSH key
-        run: |
-          echo "$SSH_PRIVATE_KEY" > id_rsa
-          chmod 600 id_rsa
-
-      - name: Connect to server and install kops
-        run: |
-          if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
-            # Replace 'user' and '35.94.124.102' with your actual SSH user and server IP
-            ssh -i id_rsa user@35.94.124.102 << EOF
-              wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
-              sudo mv kops-linux-amd64 /usr/local/bin/kops
-              sudo chmod +x /usr/local/bin/kops 
-              kops version
-            EOF
+            kops validate cluster --name ${KOPS_CLUSTER_NAME}
+            kops get cluster
           fi
 
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
