@@ -94,7 +94,7 @@ jobs:
             kops get cluster
             kops export kubecfg --admin
             kops update cluster --name ${KOPS_CLUSTER_NAME} --yes
-            kops validate cluster --name sindhu-cluster.sarathkumar.xyz --wait 20min
+            kops validate cluster --name sindhu-cluster.sarathkumar.xyz --wait 20m
             kops get cluster
 
 
