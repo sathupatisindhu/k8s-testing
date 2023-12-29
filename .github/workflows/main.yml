@@ -14,7 +14,7 @@ name: Checkbox Workflow
           - prod
       checkbox_1:
         description: Terraform Nodes
-        required: false
+        required: true
         default: 'false'
       checkbox_2:
         description: Kops Installation
