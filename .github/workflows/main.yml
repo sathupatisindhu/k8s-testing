@@ -36,6 +36,9 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      IP_1: ${{ secrets.PUBLIC_IP_1 }}
+      IP_2: ${{ secrets.PUBLIC_IP_2 }}
+      IP_3: ${{ secrets.PUBLIC_IP_3 }}
 
     steps:
       - name: Check out the repository
