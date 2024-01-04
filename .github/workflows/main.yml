@@ -83,9 +83,13 @@ jobs:
            ls -lrt
            chmod 400 $HOME/SECRET_AZURE_PEM_KEY
            scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AZURE_PEM_KEY ./terraform  azureuser@98.70.89.114:/home/azureuser
-           ls -lrt
+           ls -lrt        
            ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@98.70.89.114 "
                pwd
+               cd terraform
+               ls -lrt
+               ./common.sh
+               ./master.sh
                wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
                sudo mv kops-linux-amd64 /usr/local/bin/kops
                sudo chmod +x /usr/local/bin/kops 
