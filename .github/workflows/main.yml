@@ -78,12 +78,11 @@ jobs:
            echo "$SECRET_AZURE_PEM_KEY" >> $HOME/SECRET_AZURE_PEM_KEY
            pwd
            ls -lrt 
-           chmod 400 $HOME/SECRET_AZURE_PEM_KEY
-           chmod 600 ./terraform
+           chmod 400 ./terraform
            ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no -A azureuser@98.70.89.114 "scp -r ./terraform azureuser@98.70.89.114:/home/azureuser"
            #scp -r -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no ./terraform  azureuser@98.70.89.114:/home/azureuser
            ls -lrt
-           #chmod 400 $HOME/SECRET_AZURE_PEM_KEY
+           chmod 400 $HOME/SECRET_AZURE_PEM_KEY
            #ssh -i SECRET_AZURE_PEM_KEY azureuser@${{ secrets.PUBLIC_IP_1 }}
            ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@98.70.89.114 "
                pwd
