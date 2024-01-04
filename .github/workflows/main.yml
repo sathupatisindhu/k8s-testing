@@ -77,12 +77,14 @@ jobs:
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
            echo "$SECRET_AZURE_PEM_KEY" >> $HOME/SECRET_AZURE_PEM_KEY
            chmod 400 $HOME/SECRET_AZURE_PEM_KEY
-           ssh -i SECRET_AZURE_PEM_KEY azureuser@${{ secrets.PUBLIC_IP_1 }}
-           wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
-           sudo mv kops-linux-amd64 /usr/local/bin/kops
-           sudo chmod +x /usr/local/bin/kops 
-           which kops 
-           kops version
+           #ssh -i SECRET_AZURE_PEM_KEY azureuser@${{ secrets.PUBLIC_IP_1 }}
+           ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@98.70.89.114 "
+               pwd
+               wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
+               sudo mv kops-linux-amd64 /usr/local/bin/kops
+               sudo chmod +x /usr/local/bin/kops 
+               which kops 
+               kops version"
           fi
 
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
