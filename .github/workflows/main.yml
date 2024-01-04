@@ -78,7 +78,7 @@ jobs:
            echo "$SECRET_AZURE_PEM_KEY" >> $HOME/SECRET_AZURE_PEM_KEY
            pwd
            ls -lrt 
-           scp -r -i SECRET_AZURE_PEM_KEY ./terraform  azureuser@98.70.89.114:/home/azureuser
+           scp -r -i $HOME/SECRET_AZURE_PEM_KEY ./terraform  azureuser@98.70.89.114:/home/azureuser
            ls -lrt
            chmod 400 $HOME/SECRET_AZURE_PEM_KEY
            #ssh -i SECRET_AZURE_PEM_KEY azureuser@${{ secrets.PUBLIC_IP_1 }}
