@@ -70,17 +70,18 @@ jobs:
             # Your command for Checkbox 2 goes here
           fi
 
-      - name: Install kops and AWS CLI
+      - name: Setup key and install kops
+        env:
+           SECRET_AZURE_PEM_KEY: ${{ secrets.SECRET_AZURE_PEM_KEY }}
         run: |
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
-           echo "$SECRET_AZURE_PEM_KEY" >> $home/fission/amani-pub_key.pem
-            chmod 400 $SECRET_AZURE_PEM_KEY/amani-pub_key.pem 
-            wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
-            sudo mv kops-linux-amd64 /usr/local/bin/kops
-            sudo chmod +x /usr/local/bin/kops 
-            which kops 
-            kops version
-
+           echo "$SECRET_AZURE_PEM_KEY" >> $HOME/SECRET_AZURE_PEM_KEY
+           chmod 400 $HOME/SECRET_AZURE_PEM_KEY           
+           wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
+           sudo mv kops-linux-amd64 /usr/local/bin/kops
+           sudo chmod +x /usr/local/bin/kops 
+           which kops 
+           kops version
           fi
 
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
