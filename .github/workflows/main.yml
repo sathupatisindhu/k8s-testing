@@ -36,8 +36,8 @@ jobs:
       #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       SECRET_AZURE_PEM_KEY: ${{ secrets.SECRET_AZURE_PEM_KEY }}
-      IP_1: ${{ secrets.PUBLIC_IP_1 }}
-
+      IP_1: ${{ secrets.PUBLIC_IP_1 }}   
+      
     steps:
       - name: Check out the repository
         uses: actions/checkout@v2
@@ -69,12 +69,12 @@ jobs:
             echo "installation for Kops"
             # Your command for Checkbox 2 goes here
           fi
-          
+
       - name: Install kops and AWS CLI
         run: |
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
-            #chmod 400 ${{ secrets.SECRET_AZURE_PEM_KEY }}
-            ssh -i ${{ secrets.SECRET_AZURE_PEM_KEY }} azureuser@98.70.89.114 
+           echo "$SECRET_AZURE_PEM_KEY" >> $home/fission/amani-pub_key.pem
+            chmod 400 $SECRET_AZURE_PEM_KEY/amani-pub_key.pem 
             wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
             sudo mv kops-linux-amd64 /usr/local/bin/kops
             sudo chmod +x /usr/local/bin/kops 
