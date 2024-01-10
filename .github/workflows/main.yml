@@ -92,7 +92,7 @@ jobs:
                cd terraform
                ls -lrt
                bash ./common.sh
-               #bash ./master.sh
+               bash ./master.sh
                wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
                sudo mv kops-linux-amd64 /usr/local/bin/kops
                sudo chmod +x /usr/local/bin/kops 
@@ -107,12 +107,12 @@ jobs:
                pwd
                sudo su
                git clone https://github.com/sathupatisindhu/k8s-testing.git
-               cd demo-k8s
+               cd k8s-testing
                cd efk
                ls -lrt
                kubectl apply -f .
-               kubectl get pods 
-               #kubectl port-forward kibana-84996cdb9b-62t6f 5601:5601 -n default "
+               kubectl get pods "
+               #kubectl port-forward kibana-84996cdb9b-62t6f 5601:5601 -n default
             
           fi
           if [ "${{ github.event.inputs.checkbox_4 }}" == "true" ]; then
