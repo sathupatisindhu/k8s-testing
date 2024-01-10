@@ -33,6 +33,7 @@ jobs:
   run_workflow:
     runs-on: ubuntu-latest
     env:
+      
       SECRET_AZURE_PEM_KEY: ${{ secrets.SECRET_AZURE_PEM_KEY }}
       IP_1: ${{ secrets.PUBLIC_IP_1 }} 
       IP_2: ${{ secrets.PUBLIC_IP_2 }}
@@ -70,18 +71,18 @@ jobs:
           fi
       - name: Setup key and install kops
         env:
-           SECRET_AZURE_PEM_KEY: ${{ secrets.SECRET_AZURE_PEM_KEY }}
+           SECRET_AWS_PEM_KEY: ${{ secrets.SECRET_AWS_PEM_KEY }}
         run: |
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
-           echo "$SECRET_AZURE_PEM_KEY" >> $HOME/SECRET_AZURE_PEM_KEY
+           echo "$SECRET_AWS_PEM_KEY" >> $HOME/SECRET_AWS_PEM_KEY
            pwd
            ls -lrt
-           chmod 400 $HOME/SECRET_AZURE_PEM_KEY
-           scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AZURE_PEM_KEY ./terraform  azureuser@4.240.121.118:/home/azureuser
-           scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AZURE_PEM_KEY ./terraform/common.sh  azureuser@20.235.106.199:/home/azureuser
-           scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AZURE_PEM_KEY ./terraform/common.sh  azureuser@4.188.243.158:/home/azureuser
+           chmod 400 $HOME/SECRET_AWS_PEM_KEY
+           scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AWS_PEM_KEY ./terraform  azureuser@4.240.121.118:/home/azureuser
+           scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AWS_PEM_KEY ./terraform/common.sh  azureuser@20.235.106.199:/home/azureuser
+           scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AWS_PEM_KEY ./terraform/common.sh  azureuser@4.188.243.158:/home/azureuser
            ls -lrt        
-           ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
+           ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
                pwd
                sudo su
                cd terraform
@@ -98,7 +99,7 @@ jobs:
             echo "installation for EFK"
             # Your command for Checkbox 3 goes here
             
-            ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
+            ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
                pwd
                sudo su
                git clone https://github.com/sathupatisindhu/demo-k8s.git
@@ -113,7 +114,7 @@ jobs:
           if [ "${{ github.event.inputs.checkbox_4 }}" == "true" ]; then
             echo "installation for monitoring"
             # Your command for Checkbox 4 goes here
-            ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
+            ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
                pwd
                sudo su
                curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
