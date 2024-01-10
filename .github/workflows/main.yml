@@ -85,7 +85,7 @@ jobs:
            
            ls -lrt        
            #ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@52.66.250.47
-           ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@13.232.15.206"
+           ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@13.232.15.206 "
                pwd
                sudo su
                cd terraform
