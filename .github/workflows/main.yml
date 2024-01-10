@@ -22,21 +22,21 @@ on:
         default: 'false'
       checkbox_3:
         description: EFK Installation
-        required: false
+        required: true
         default: 'false'
       checkbox_4:
         description: Monitoring Installation
-        required: false
+        required: true
         default: 'false'
 
 jobs:
   run_workflow:
     runs-on: ubuntu-latest
     env:
-      #AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       SECRET_AZURE_PEM_KEY: ${{ secrets.SECRET_AZURE_PEM_KEY }}
-      IP_1: ${{ secrets.PUBLIC_IP_1 }}   
+      IP_1: ${{ secrets.PUBLIC_IP_1 }} 
+      IP_2: ${{ secrets.PUBLIC_IP_2 }}
+      IP_3: ${{ secrets.PUBLIC_IP_3 }}
       
     steps:
       - name: Check out the repository
@@ -62,14 +62,12 @@ jobs:
             terraform plan
             terraform apply --auto-approve
           fi
-
       - name: Run workflow for kops installation
         run: |
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
             echo "installation for Kops"
             # Your command for Checkbox 2 goes here
           fi
-
       - name: Setup key and install kops
         env:
            SECRET_AZURE_PEM_KEY: ${{ secrets.SECRET_AZURE_PEM_KEY }}
@@ -77,15 +75,15 @@ jobs:
           if [ "${{ github.event.inputs.checkbox_2 }}" == "true" ]; then
            echo "$SECRET_AZURE_PEM_KEY" >> $HOME/SECRET_AZURE_PEM_KEY
            pwd
-           ls -lrt 
-           #ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no -A azureuser@98.70.89.114 "scp -r ./terraform azureuser@98.70.89.114:/home/azureuser"
-           #scp -r -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no ./terraform  azureuser@98.70.89.114:/home/azureuser
            ls -lrt
            chmod 400 $HOME/SECRET_AZURE_PEM_KEY
-           scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AZURE_PEM_KEY ./terraform  azureuser@98.70.89.114:/home/azureuser
+           scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AZURE_PEM_KEY ./terraform  azureuser@4.240.121.118:/home/azureuser
+           scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AZURE_PEM_KEY ./terraform/common.sh  azureuser@20.235.106.199:/home/azureuser
+           scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AZURE_PEM_KEY ./terraform/common.sh  azureuser@4.188.243.158:/home/azureuser
            ls -lrt        
-           ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@98.70.89.114 "
+           ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
                pwd
+               sudo su
                cd terraform
                ls -lrt
                bash ./common.sh
@@ -95,15 +93,34 @@ jobs:
                sudo chmod +x /usr/local/bin/kops 
                which kops 
                kops version"
-
           fi
-
           if [ "${{ github.event.inputs.checkbox_3 }}" == "true" ]; then
             echo "installation for EFK"
             # Your command for Checkbox 3 goes here
+            
+            ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
+               pwd
+               sudo su
+               git clone https://github.com/sathupatisindhu/demo-k8s.git
+               cd demo-k8s
+               cd efk
+               ls -lrt
+               kubectl apply -f .
+               kubectl get pods 
+               #kubectl port-forward kibana-84996cdb9b-62t6f 5601:5601 -n default "
+            
           fi
-
           if [ "${{ github.event.inputs.checkbox_4 }}" == "true" ]; then
             echo "installation for monitoring"
             # Your command for Checkbox 4 goes here
+            ssh -i $HOME/SECRET_AZURE_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
+               pwd
+               sudo su
+               curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+               sudo apt-get install apt-transport-https --yes
+               echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.listsudo apt-get install helm
+               sudo apt-get update
+               sudo apt-get install helm
+               helm version"  
+            
           fi
