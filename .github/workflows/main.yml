@@ -79,14 +79,14 @@ jobs:
            pwd
            ls -lrt
            chmod 400 $HOME/SECRET_AWS_PEM_KEY
-           #scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AWS_PEM_KEY ./terraform  ubuntu@52.66.250.47:/home/ubuntu
+           scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AWS_PEM_KEY ./terraform  ubuntu@52.66.250.47:/home/ubuntu
            #scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AWS_PEM_KEY ./terraform/common.sh  ubuntu@13.232.15.206:/home/ubuntu
-           scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AWS_PEM_KEY ./terraform/common.sh  ubuntu@13.126.159.117:/home/ubuntu
+           #scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AWS_PEM_KEY ./terraform/common.sh  ubuntu@13.126.159.117:/home/ubuntu
            
            ls -lrt        
-           #ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@52.66.250.47
+           ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@52.66.250.47 "
            #ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@13.232.15.206 
-            ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@13.126.159.117 "
+           #ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@13.126.159.117 
                pwd
                sudo su
                cd terraform
@@ -103,7 +103,7 @@ jobs:
             echo "installation for EFK"
             # Your command for Checkbox 3 goes here
             
-            ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@52-66-250-47 "
+            ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@52.66.250.47 "
                pwd
                sudo su
                git clone https://github.com/sathupatisindhu/demo-k8s.git
@@ -118,7 +118,7 @@ jobs:
           if [ "${{ github.event.inputs.checkbox_4 }}" == "true" ]; then
             echo "installation for monitoring"
             # Your command for Checkbox 4 goes here
-            ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no azureuser@4.240.121.118 "
+            ssh -i $HOME/SECRET_AWS_PEM_KEY -o StrictHostKeyChecking=no ubuntu@52.66.250.47 "
                pwd
                sudo su
                curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
