@@ -80,13 +80,13 @@ jobs:
            pwd
            ls -lrt
            chmod 400 $HOME/SECRET_AWS_CA_PEM_KEY
-           scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AWS_CA_PEM_KEY ./terraform  ubuntu@3.96.46.189:/home/ubuntu
-           #scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AWS_CA_PEM_KEY ./terraform/common.sh  ubuntu@13.232.15.206:/home/ubuntu
+           #scp -o StrictHostKeyChecking=no -r -i $HOME/SECRET_AWS_CA_PEM_KEY ./terraform  ubuntu@3.96.46.189:/home/ubuntu
+           scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AWS_CA_PEM_KEY ./terraform/common.sh  ubuntu@99.79.63.190:/home/ubuntu
            #scp -o StrictHostKeyChecking=no -i $HOME/SECRET_AWS_CA_PEM_KEY ./terraform/common.sh  ubuntu@13.126.159.117:/home/ubuntu
            
            ls -lrt        
-           ssh -i $HOME/SECRET_AWS_CA_PEM_KEY -o StrictHostKeyChecking=no ubuntu@3.96.46.189 "
-           #ssh -i $HOME/SECRET_AWS_CA_PEM_KEY -o StrictHostKeyChecking=no ubuntu@13.232.15.206 
+           #ssh -i $HOME/SECRET_AWS_CA_PEM_KEY -o StrictHostKeyChecking=no ubuntu@3.96.46.189 
+           ssh -i $HOME/SECRET_AWS_CA_PEM_KEY -o StrictHostKeyChecking=no ubuntu@99.79.63.190 "
            #ssh -i $HOME/SECRET_AWS_CA_PEM_KEY -o StrictHostKeyChecking=no ubuntu@13.126.159.117 
                pwd
                sudo su
