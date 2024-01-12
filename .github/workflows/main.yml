@@ -106,8 +106,8 @@ jobs:
             
             ssh -i $HOME/SECRET_AWS_CA_PEM_KEY -o StrictHostKeyChecking=no ubuntu@35.183.181.57 "
                pwd
-               sudo su
                git clone https://github.com/sathupatisindhu/k8s-testing.git
+               sudo su
                cd k8s-testing
                cd efk
                ls -lrt
