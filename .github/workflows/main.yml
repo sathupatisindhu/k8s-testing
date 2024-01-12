@@ -93,7 +93,7 @@ jobs:
                cd terraform
                ls -lrt
                bash ./common.sh
-               bash ./master.sh
+               #bash ./master.sh
                wget https://github.com/kubernetes/kops/releases/download/v1.28.1/kops-linux-amd64
                sudo mv kops-linux-amd64 /usr/local/bin/kops
                sudo chmod +x /usr/local/bin/kops 
