@@ -38,8 +38,8 @@ jobs:
       #SECRET_AZURE_PEM_KEY: ${{ secrets.SECRET_AZURE_PEM_KEY }}
       SECRET_AWS_CA_PEM_KEY: ${{ secrets.SECRET_AWS_CA_PEM_KEY}}
       #IP_1: ${{ secrets.PUBLIC_IP_1 }} 
-      IP_2: ${{ secrets.PUBLIC_IP_2 }}
-      #IP_3: ${{ secrets.PUBLIC_IP_3 }}
+      #IP_2: ${{ secrets.PUBLIC_IP_2 }}
+      IP_3: ${{ secrets.PUBLIC_IP_3 }}
       
     steps:
       - name: Check out the repository
